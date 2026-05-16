@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Christopher Leonard Casinillo — Startup Operator & Virtual Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f2ec;
+    --teal: #0B7B7B;
+    --teal-dark: #085F5F;
+    --orange: #E8611A;
+    --mid: #4a4a4a;
+    --light: #e8e4dc;
+    --accent: #c8b89a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(245,242,236,0.94); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--light);
+  }
+  .nav-name { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--teal-dark); }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+
+  .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 5rem; }
+  .hero-inner { padding: 6rem 5rem; max-width: 900px; }
+  .hero-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--orange); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.6rem; }
+  .hero-tag::before { content: ''; display: inline-block; width: 2rem; height: 1px; background: var(--orange); }
+  .hero-name { font-family: 'DM Serif Display', serif; font-size: clamp(3.2rem, 5.5vw, 6rem); line-height: 1.0; color: var(--teal-dark); margin-bottom: 0.4rem; }
+  .hero-name em { font-style: italic; color: var(--orange); }
+  .hero-title { font-size: 1.1rem; color: var(--mid); font-weight: 300; margin-bottom: 2rem; }
+  .hero-desc { font-size: 1.05rem; line-height: 1.8; color: var(--mid); max-width: 640px; margin-bottom: 1.5rem; }
+  .hero-highlight { display: inline-block; background: var(--teal-dark); color: white; padding: 0.9rem 2rem; font-size: 0.88rem; font-weight: 400; margin-bottom: 2.5rem; line-height: 1.5; }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary { background: var(--teal-dark); color: white; padding: 0.85rem 2rem; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; }
+  .btn-primary:hover { background: var(--teal); transform: translateY(-1px); }
+  .btn-secondary { background: transparent; color: var(--teal-dark); padding: 0.85rem 2rem; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; border: 1.5px solid var(--teal-dark); transition: all 0.2s; }
+  .btn-secondary:hover { background: var(--teal-dark); color: white; }
+
+  section { padding: 7rem 5rem; }
+  .section-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--orange); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.6rem; }
+  .section-tag::before { content: ''; display: inline-block; width: 1.5rem; height: 1px; background: var(--orange); }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(2.2rem, 3.5vw, 3.2rem); color: var(--teal-dark); line-height: 1.1; margin-bottom: 0.8rem; }
+  .section-subtitle { font-size: 1rem; color: var(--mid); line-height: 1.7; max-width: 620px; margin-bottom: 3.5rem; font-weight: 300; }
+
+  #experience { background: white; }
+  .exp-grid { display: flex; flex-direction: column; gap: 1px; background: var(--light); border: 1px solid var(--light); }
+  .exp-card { background: white; padding: 2.5rem 3rem; display: grid; grid-template-columns: 200px 1fr; gap: 3rem; opacity: 0; transform: translateY(20px); transition: all 0.5s ease; }
+  .exp-card.visible { opacity: 1; transform: translateY(0); }
+  .exp-card:hover { background: #faf9f7; }
+  .exp-org { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--orange); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .exp-period { font-size: 0.82rem; color: var(--mid); font-weight: 300; line-height: 1.6; }
+  .exp-title { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--teal-dark); margin-bottom: 0.6rem; }
+  .exp-desc { font-size: 0.9rem; line-height: 1.7; color: var(--mid); font-weight: 300; margin-bottom: 1rem; }
+  .exp-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag { font-size: 0.67rem; font-family: 'JetBrains Mono', monospace; color: var(--teal-dark); border: 1px solid var(--teal); padding: 0.2rem 0.55rem; letter-spacing: 0.04em; }
+
+  #work { background: var(--paper); }
+  .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--light); border: 1px solid var(--light); }
+  .work-card { background: var(--paper); padding: 2.5rem; opacity: 0; transform: translateY(20px); transition: all 0.45s ease; }
+  .work-card.visible { opacity: 1; transform: translateY(0); }
+  .work-card:nth-child(2) { transition-delay: 0.08s; }
+  .work-card:nth-child(3) { transition-delay: 0.16s; }
+  .work-card:nth-child(4) { transition-delay: 0.08s; }
+  .work-card:nth-child(5) { transition-delay: 0.16s; }
+  .work-card:nth-child(6) { transition-delay: 0.24s; }
+  .work-card:hover { background: white; }
+  .work-cat { font-family: 'JetBrains Mono', monospace; font-size: 0.67rem; color: var(--orange); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.8rem; }
+  .work-title { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--teal-dark); line-height: 1.3; margin-bottom: 0.8rem; }
+  .work-desc { font-size: 0.87rem; line-height: 1.7; color: var(--mid); font-weight: 300; margin-bottom: 1.2rem; }
+
+  #wins { background: var(--teal-dark); }
+  #wins .section-title { color: white; }
+  #wins .section-subtitle { color: rgba(255,255,255,0.6); }
+  #wins .section-tag { color: var(--orange); }
+  #wins .section-tag::before { background: var(--orange); }
+  .wins-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); }
+  .win-card { background: var(--teal-dark); padding: 2.5rem 2rem; opacity: 0; transform: translateY(20px); transition: all 0.4s ease; }
+  .win-card.visible { opacity: 1; transform: translateY(0); }
+  .win-card:nth-child(2) { transition-delay: 0.1s; }
+  .win-card:nth-child(3) { transition-delay: 0.2s; }
+  .win-card:hover { background: rgba(255,255,255,0.06); }
+  .win-type { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.8rem; }
+  .win-title { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: white; line-height: 1.3; margin-bottom: 0.6rem; }
+  .win-desc { font-size: 0.85rem; color: rgba(255,255,255,0.65); line-height: 1.6; font-weight: 300; }
+
+  #skills { background: white; }
+  .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 4rem; }
+  .skill-block { opacity: 0; transform: translateY(15px); transition: all 0.4s ease; }
+  .skill-block.visible { opacity: 1; transform: translateY(0); }
+  .skill-name { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.5rem; display: flex; justify-content: space-between; }
+  .skill-level { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--orange); }
+  .skill-bar { height: 2px; background: var(--light); overflow: hidden; }
+  .skill-fill { height: 100%; background: var(--teal); width: 0%; transition: width 1.4s ease; }
+
+  #contact { background: var(--paper); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+  .big-text { font-family: 'DM Serif Display', serif; font-size: clamp(2.5rem, 4vw, 4rem); color: var(--teal-dark); line-height: 1.1; margin-bottom: 1.5rem; }
+  .big-text em { color: var(--orange); font-style: italic; }
+  .contact-intro { font-size: 0.95rem; color: var(--mid); line-height: 1.8; font-weight: 300; margin-bottom: 2rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 0.8rem; }
+  .contact-link { display: flex; align-items: center; gap: 1rem; text-decoration: none; padding: 1.1rem 1.5rem; border: 1px solid var(--light); background: white; transition: all 0.2s; color: inherit; }
+  .contact-link:hover { border-color: var(--teal); }
+  .link-icon { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--orange); letter-spacing: 0.1em; text-transform: uppercase; width: 56px; flex-shrink: 0; }
+  .link-val { font-size: 0.88rem; color: var(--teal-dark); font-weight: 500; }
+
+  footer { padding: 2rem 5rem; border-top: 1px solid var(--light); display: flex; justify-content: space-between; align-items: center; }
+  footer p { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--accent); letter-spacing: 0.06em; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-tag { animation: fadeUp 0.6s ease both; }
+  .hero-name { animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-title { animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-desc { animation: fadeUp 0.6s 0.3s ease both; }
+  .hero-highlight { animation: fadeUp 0.6s 0.35s ease both; }
+  .hero-cta { animation: fadeUp 0.6s 0.4s ease both; }
+
+  @media (max-width: 1000px) {
+    .exp-card { grid-template-columns: 1fr; gap: 1rem; }
+    .work-grid { grid-template-columns: repeat(2, 1fr); }
+    .wins-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    section { padding: 5rem 3rem; }
+    .hero-inner { padding: 6rem 3rem; }
+  }
+  @media (max-width: 680px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .work-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+    section { padding: 4rem 1.5rem; }
+    .hero-inner { padding: 5rem 1.5rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-name">Christopher Leonard Casinillo</span>
+  <div class="nav-links">
+    <a href="#experience">Experience</a>
+    <a href="#work">Work</a>
+    <a href="#wins">Wins</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Virtual Assistant &amp; Startup Operator</div>
+    <h1 class="hero-name">Christopher<br><em>Leonard</em><br>Casinillo</h1>
+    <p class="hero-title">Content Strategy &nbsp;·&nbsp; Accelerator Writing &nbsp;·&nbsp; Platform Documentation</p>
+    <p class="hero-desc">I support founders and executives with the high-leverage work that moves a company forward — from brand positioning and investor applications to platform documentation and market research. My background spans government startup program management and hands-on operations inside a live AI platform.</p>
+    <div class="hero-highlight">Applications I drafted helped secure accelerator acceptances and contributed to an international award win.</div>
+    <div class="hero-cta">
+      <a href="#work" class="btn-primary">See My Work</a>
+      <a href="#contact" class="btn-secondary">Get in Touch</a>
+    </div>
+  </div>
+</div>
+
+<section id="experience">
+  <div class="section-tag">Experience</div>
+  <h2 class="section-title">Where I Come From</h2>
+  <p class="section-subtitle">Government startup program management and hands-on operations inside an AI platform. Two sides of the same world.</p>
+  <div class="exp-grid">
+
+    <div class="exp-card">
+      <div>
+        <div class="exp-org">Assure Docs Pty Ltd</div>
+        <div class="exp-period">2025 – Present<br>Melbourne, AU (Remote)</div>
+      </div>
+      <div>
+        <div class="exp-title">Startup Operator &amp; Content Strategist</div>
+        <div class="exp-desc">Operated across the full commercial and communications function of a live, revenue-generating AI fraud prevention platform. Built a complete website content suite from scratch, drafted accelerator and award applications that secured program acceptances and an international award, created platform documentation and step-by-step user workflow guides, conducted market intelligence research across AU and US programs, and authored long-form thought leadership content using verified industry research. Worked independently across scope that would typically span three to four roles in a funded startup.</div>
+        <div class="exp-tags"><span class="tag">Content Strategy</span><span class="tag">Application Writing</span><span class="tag">Platform Docs</span><span class="tag">Market Research</span><span class="tag">Investor Comms</span><span class="tag">Workflow Documentation</span></div>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div>
+        <div class="exp-org">Dept. of Trade &amp; Industry</div>
+        <div class="exp-period">Philippines<br>Current Role</div>
+      </div>
+      <div>
+        <div class="exp-title">Senior Trade-Industry Development Specialist</div>
+        <div class="exp-desc">Leads key MSME and Startup Development Programs for the Department of Trade and Industry. Manages regional projects that enhance MSMEs' and startups' access to resources, market opportunities, and capacity-building support. Builds and sustains strategic partnerships with government agencies, NGOs, industry groups, and community stakeholders to ensure program alignment with regional and national development priorities.</div>
+        <div class="exp-tags"><span class="tag">Startup Programs</span><span class="tag">MSME Development</span><span class="tag">Partnership Management</span><span class="tag">Program Management</span><span class="tag">Government</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-tag">Selected Work</div>
+  <h2 class="section-title">What I Delivered</h2>
+  <p class="section-subtitle">A single engagement with Assure Docs — spanning content strategy, investor applications, platform documentation, and market intelligence.</p>
+  <div class="work-grid">
+
+    <div class="work-card">
+      <div class="work-cat">Website Content</div>
+      <div class="work-title">End-to-End Website Content Suite</div>
+      <div class="work-desc">Built a complete website content strategy from scratch — hero copy, five industry pages, education child tabs, product pages, About section, Resources, and Contact. All aligned to a unified brand positioning framework.</div>
+      <div class="exp-tags"><span class="tag">Copywriting</span><span class="tag">Content Strategy</span><span class="tag">Brand Positioning</span></div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-cat">Investor Relations</div>
+      <div class="work-title">Accelerator &amp; Award Applications</div>
+      <div class="work-desc">Drafted full applications for YC, Antler, UNSW Founders, 500 Global, a16z Speedrun, Australian Technologies Competition, and Plug &amp; Play Fintech. Applications contributed to accelerator acceptances and an international award win.</div>
+      <div class="exp-tags"><span class="tag">Application Writing</span><span class="tag">Pitch Framing</span><span class="tag">Investor Comms</span></div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-cat">Platform Documentation</div>
+      <div class="work-title">Step-by-Step Guides &amp; Workflows</div>
+      <div class="work-desc">Created end-to-end workflow documentation for platform onboarding and verification processes — step-by-step guides covering the full user journey from identity confirmation through blockchain audit trail recording, written for institutional and technical audiences.</div>
+      <div class="exp-tags"><span class="tag">Documentation</span><span class="tag">Workflow Design</span><span class="tag">Process Writing</span></div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-cat">Market Intelligence</div>
+      <div class="work-title">Global Opportunity Research</div>
+      <div class="work-desc">Researched and assessed accelerators, grants, awards, and investment programs across Australia and the US — evaluating eligibility, terms, and strategic fit. Produced a prioritised pipeline with application guidance.</div>
+      <div class="exp-tags"><span class="tag">Research</span><span class="tag">Competitive Intel</span><span class="tag">BD Strategy</span></div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-cat">Thought Leadership</div>
+      <div class="work-title">Industry Articles — Fully Written &amp; Sourced</div>
+      <div class="work-desc">Authored long-form Insights articles covering deepfake fraud trends, regulatory changes, IEAA research findings, and financial services document fraud — all using verified, cited market data.</div>
+      <div class="exp-tags"><span class="tag">Content Writing</span><span class="tag">Research</span><span class="tag">Thought Leadership</span></div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-cat">Website Audit</div>
+      <div class="work-title">Content Audit &amp; Replacement Guide</div>
+      <div class="work-desc">Audited a live website identifying misleading and inaccurate content across multiple pages. Produced a structured replacement document with exact copy for each issue, prioritised by urgency for the web developer.</div>
+      <div class="exp-tags"><span class="tag">Content Audit</span><span class="tag">Copywriting</span><span class="tag">Web Strategy</span></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="wins">
+  <div class="section-tag">Recognised Outcomes</div>
+  <h2 class="section-title">Work That Got Results</h2>
+  <p class="section-subtitle">Applications and content that contributed to real outcomes — not just deliverables.</p>
+  <div class="wins-grid">
+
+    <div class="win-card">
+      <div class="win-type">Award Win</div>
+      <div class="win-title">PAN Finance Awards 2026 — Best AI-Powered Fraud Prevention Platform, Australia</div>
+      <div class="win-desc">Applications and positioning materials I drafted contributed to Assure Docs' recognition as Best AI-Powered Fraud Prevention Platform in Australia at the PAN Finance Awards 2026.</div>
+    </div>
+
+    <div class="win-card">
+      <div class="win-type">Program Recognition</div>
+      <div class="win-title">Top 35 AI Companies in Australia — CSIRO, Google &amp; Stone and Chalk AI Sprint</div>
+      <div class="win-desc">Content and application materials supported Assure Docs' selection as one of Australia's Top 35 AI Companies by CSIRO, Google, and Stone &amp; Chalk.</div>
+    </div>
+
+    <div class="win-card">
+      <div class="win-type">Accelerator Acceptance</div>
+      <div class="win-title">Startmate Founder Program &amp; LaunchVic Basecamp Cohort 2</div>
+      <div class="win-desc">Applications drafted for competitive Australian accelerator programs contributed to acceptance into Startmate — Asia-Pacific's most selective founder program — and LaunchVic Basecamp Cohort 2.</div>
+    </div>
+
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-tag">Capabilities</div>
+  <h2 class="section-title">What I Do Well</h2>
+  <p class="section-subtitle">High-leverage skills for founders and executives who need a VA that operates at a strategic level.</p>
+  <div class="skills-grid">
+    <div class="skill-block"><div class="skill-name">Content Writing &amp; Copywriting <span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" data-width="95"></div></div></div>
+    <div class="skill-block"><div class="skill-name">Accelerator &amp; Grant Writing <span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" data-width="92"></div></div></div>
+    <div class="skill-block"><div class="skill-name">Brand &amp; Positioning Strategy <span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" data-width="90"></div></div></div>
+    <div class="skill-block"><div class="skill-name">Platform Documentation &amp; Guides <span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" data-width="88"></div></div></div>
+    <div class="skill-block"><div class="skill-name">Market Research &amp; Intelligence <span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" data-width="88"></div></div></div>
+    <div class="skill-block"><div class="skill-name">Investor &amp; Executive Comms <span class="skill-level">Proficient</span></div><div class="skill-bar"><div class="skill-fill" data-width="85"></div></div></div>
+    <div class="skill-block"><div class="skill-name">Startup Program Management <span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" data-width="90"></div></div></div>
+    <div class="skill-block"><div class="skill-name">Independent Execution <span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" data-width="95"></div></div></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-grid">
+    <div>
+      <div class="section-tag">Contact</div>
+      <div class="big-text">Let's work<br><em>together.</em></div>
+      <p class="contact-intro">I am available for VA roles supporting founders, CEOs, and executive teams — particularly in the startup and business development space. I work best with clients who need someone who can operate independently, produce high-quality deliverables, and handle high-stakes work without being managed at every step.</p>
+      <a href="mailto:christopherleonardcasinillo@gmail.com" class="btn-primary">Send an Email</a>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:christopherleonardcasinillo@gmail.com" class="contact-link">
+        <span class="link-icon">Email</span>
+        <span class="link-val">christopherleonardcasinillo@gmail.com</span>
+      </a>
+      <a href="https://www.linkedin.com/in/christopherleonardcasinillo/" target="_blank" class="contact-link">
+        <span class="link-icon">LinkedIn</span>
+        <span class="link-val">linkedin.com/in/christopherleonardcasinillo</span>
+      </a>
+      <div class="contact-link" style="cursor:default;">
+        <span class="link-icon">Based</span>
+        <span class="link-val">Philippines</span>
+      </div>
+      <div class="contact-link" style="cursor:default;">
+        <span class="link-icon">Open to</span>
+        <span class="link-val">Remote VA · Contract · Part-time · Full-time</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Christopher Leonard Casinillo</p>
+  <p>Virtual Assistant &nbsp;·&nbsp; Startup Operator &nbsp;·&nbsp; Content Strategist</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        if (entry.target.classList.contains('skill-block')) {
+          const fill = entry.target.querySelector('.skill-fill');
+          if (fill) setTimeout(() => { fill.style.width = fill.dataset.width + '%'; }, 100);
+        }
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.exp-card, .work-card, .win-card, .skill-block').forEach(el => observer.observe(el));
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+    navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--teal)' : ''; });
+  });
+</script>
+</body>
+</html>
